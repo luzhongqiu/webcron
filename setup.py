@@ -5,7 +5,8 @@ install_requires = [
     'tox',
     'sphinx',
     'tornado',
-    'plan'
+    'plan',
+    'click'
 ]
 
 setup(
