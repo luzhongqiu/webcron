@@ -19,6 +19,7 @@ class LoginHandler(BaseHandler):
                 'status': 1,
                 'error': ''
             }
+            self.set_secure_cookie("username", username)
         else:
             return_data = {
                 'status': 0,

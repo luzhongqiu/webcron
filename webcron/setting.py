@@ -7,5 +7,6 @@ WEB_SETTINGS = {
     "xsrf_cookies": False,
     'template_path': os.path.join(os.path.dirname(os.path.dirname(__file__)), "templates"),
     "gzip": True,
-    "debug": True
+    "debug": True,
+    "login_url": "/login"
 }
