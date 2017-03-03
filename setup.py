@@ -6,7 +6,9 @@ install_requires = [
     'sphinx',
     'tornado',
     'plan',
-    'click'
+    'click',
+    'pony',
+    'passlib'
 ]
 
 setup(

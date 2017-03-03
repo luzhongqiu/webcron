@@ -90,6 +90,3 @@ ENV/
 
 # pycharm
 .idea
-
-# db
-*.db

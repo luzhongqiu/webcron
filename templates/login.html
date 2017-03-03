@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include "header.html" %}
+<body>
+<style type="text/css">
+    body {
+      background-color: black;
+    }
+    body > .grid {
+      height: 100%;
+    }
+    .image {
+      margin-top: -100px;
+    }
+    .column {
+      max-width: 450px;
+    }
+  </style>
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui teal image header">
+      <!--<img src="assets/images/logo.png" class="image">-->
+      <div class="content">
+          {{ title}}
+      </div>
+    </h2>
+    <form class="ui large form error" id="login_form">
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input type="text" name="username" placeholder="username" v-model="username">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" name="password" placeholder="Password" v-model="password">
+          </div>
+        </div>
+        <div class="ui fluid large teal button" v-on:click="login()">Login</div>
+      </div>
+
+      <div v-if="error_message" class="ui error message">
+          ${ error_message }
+      </div>
+
+    </form>
+
+    <!--<div class="ui message">-->
+      <!--<a href="#" onclick="leave_message()">leave a message?</a>-->
+    <!--</div>-->
+  </div>
+</div>
+<div class="ui fullscreen modal">
+  <div class="image content">
+    <div class="description">
+
+      <div class="ui header">给我留言</div>
+        <div class="ui form">
+            <div class="field">
+                <textarea disabled>暂未开放</textarea>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">
+      取消
+    </div>
+    <div class="ui positive right labeled icon button">
+      留言
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+</div>
+<script>
+    new Vue({
+        el: '#login_form',
+        data: {
+            username: '',
+            password: '',
+            error_message: ''
+        },
+        methods:{
+            login: function () {
+                var post_data = {
+                    "username": this.username,
+                    "password": this.password
+                };
+                Vue.http.post('/login', post_data).then((response) => {
+                    var result_data = response.json();
+                    if(result_data.status == 1){
+                        window.location.href = '/admin/'
+                    }else{
+                        this.error_message = result_data.error
+                    }
+                }, (response) => {
+                    this.error_message = 'backend some wrong'
+                    console.log(response.status);
+                    console.log(this.error_message);
+                });
+            }
+        }
+    });
+    new Vue({
+        el: '#error',
+        data: {
+            error_message: 'test'
+        }
+    });
+    function leave_message() {
+        $('.fullscreen.modal').modal('show');
+    }
+    $('.ui.form')
+        .form({
+          fields: {
+            email: {
+              identifier  : 'email',
+              rules: [
+                {
+                 type   : 'email',
+                  prompt : 'Please enter a valid e-mail'
+                }
+              ]
+            },
+            password: {
+              identifier  : 'password',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your password'
+                },
+                {
+                  type   : 'length[6]',
+                  prompt : 'Your password must be at least 6 characters'
+                }
+              ]
+            }
+          }
+        })
+      ;
+</script>
+
+</body>
+</html>
